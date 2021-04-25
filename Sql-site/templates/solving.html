@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Задания</h1>
+    <h3> Баллы: {{ points }}</h3>
+    {% for item in tasks %}
+        <div class="block">
+            <h2>{{ item.title }}</h2>
+            <h4>{{ item.content }}</h4>
+            {% if item.file %}
+                <p>
+                    <a class="btn btn-success" href="/solving/{{ item.file }}">Скачать</a>
+                </p>
+            {% endif %}
+            {% if status[item.id] == True %}
+                <h3>Решено</h3>
+            {% else %}
+                <form method="POST">
+                <input type="hidden" name="index" value={{ item.id }}>
+                <input type="submit" class="btn btn-secondary" value="Дать ответ">
+            {% endif %}
+            </form>
+        </div>
+
+    {% endfor %}
+    <form action="" method="post" novalidate>
+        <div>
+            {{ form.csrf_token }}
+        </div>
+        {% for field in form if field.name != 'csrf_token' %}
+            <div>
+                {{ field() }}
+                {% for error in field.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </form>
+
+{% endblock %}

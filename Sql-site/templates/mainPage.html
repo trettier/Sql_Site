@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>На этом сайте вы можете решить доступные CTF или предложить свои задания</h1>
+    {% if current_user.is_authenticated %}
+        <form action="/" method="POST">
+            <div>
+                <input type="hidden" name="index" value="1">
+                <input type="submit" href="offer" class="btn btn-secondary" value="Предложить задание">
+            </div>
+        </form>
+        <form action="/" method="POST">
+            <div>
+                <input type="hidden" name="index" value="2">
+                <input type="submit" href="solving" class="btn btn-secondary" value="Решать">
+            </div>
+        </form>
+    {% else %}
+        <p>
+        <h1>Для решения CTF войдите или зарегестрируетесь</h1>
+        </p>
+    {% endif %}
+    {% if current_user.name == "admin" %}
+        <a href="look_offers" class="btn btn-secondary">Создать CTF</a>
+    {% endif %}
+{% endblock %}

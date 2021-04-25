@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for item in news%}
+<div>
+    <h2>{{item.title}}</h2>
+    <div>
+        {{item.content}}
+     </div>
+        {% if item.file %}
+    <form method="POST">
+<div>
+    <input type="hidden" name="index" value={{ item.file }}>
+    <input type="submit" class="btn btn-secondary" value="{{ item.file }}">
+</div>
+    </form>
+    {% endif %}
+       <div>
+    <h2>Ответ:{{item.answer}}</h2>
+</div>
+
+{% endfor %}
+    <form action="" method="post" novalidate>
+        <div>
+            {{ form.csrf_token }}
+        </div>
+        {% for field in form if field.name != 'csrf_token' %}
+            <div>
+                {{ field.label() }}
+                {{ field() }}
+                {% for error in field.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </form>
+{% endblock %}
